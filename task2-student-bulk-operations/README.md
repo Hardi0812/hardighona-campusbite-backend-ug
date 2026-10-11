@@ -40,3 +40,5 @@ Student Registration Backend
 ```bash
 npm install
 node server.js
+
+Task 2 includes bulk student operations for inserting, updating, and deleting student records.
