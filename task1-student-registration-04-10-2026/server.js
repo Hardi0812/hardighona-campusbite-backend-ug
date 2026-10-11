@@ -1,4 +1,4 @@
-﻿
+
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
@@ -684,36 +684,6 @@ app.patch("/api/students/bulk", (req, res, next) => {
 });
 
 // =========================
-// DELETE ONE STUDENT
-// DELETE /api/students/:id
-// =========================
-
-app.delete("/api/students/:id", (req, res, next) => {
-    try {
-        const students = readStudents();
-        const id = Number(req.params.id);
-        const index = students.findIndex(s => s.id === id);
-
-        if (!Number.isInteger(id) || id < 1 || index === -1) {
-            return res.status(404).json({
-                success: false,
-                message: "Student not found"
-            });
-        }
-
-        students.splice(index, 1);
-        saveStudents(students);
-
-        return res.json({
-            success: true,
-            message: "Student deleted successfully"
-        });
-    } catch (error) {
-        next(error);
-    }
-});
-
-// =========================
 // BULK DELETE
 // DELETE /api/students/bulk
 // BODY: { "ids": [1, 2] }
@@ -766,6 +736,36 @@ app.delete("/api/students/bulk", (req, res, next) => {
             success: true,
             deletedCount,
             message: `${deletedCount} student(s) deleted successfully`
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// =========================
+// DELETE ONE STUDENT
+// DELETE /api/students/:id
+// =========================
+
+app.delete("/api/students/:id", (req, res, next) => {
+    try {
+        const students = readStudents();
+        const id = Number(req.params.id);
+        const index = students.findIndex(s => s.id === id);
+
+        if (!Number.isInteger(id) || id < 1 || index === -1) {
+            return res.status(404).json({
+                success: false,
+                message: "Student not found"
+            });
+        }
+
+        students.splice(index, 1);
+        saveStudents(students);
+
+        return res.json({
+            success: true,
+            message: "Student deleted successfully"
         });
     } catch (error) {
         next(error);
